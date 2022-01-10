@@ -1,0 +1,13 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+test-package-pipenv-base = {path = "./test_package_pipenv_base"}
+test-package-pipenv-with-dependency = {path = "./test_package_pipenv_with_dependency"}
+
+[dev-packages]
+
+[requires]
+python_version = "3.10"
