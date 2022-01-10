@@ -35,3 +35,23 @@ CRITICAL:pipenv.patched.notpip._internal.resolution.resolvelib.factory:Could not
 ERROR: No matching distribution found for test-package-pipenv-base
 
 ```
+
+Where as running `pip install -r requirements.txt` works:
+
+```
+❯ pip install -r requirements.txt
+Processing ./test_package_pipenv_base
+  Preparing metadata (setup.py) ... done
+Processing ./test_package_pipenv_with_dependency
+  Preparing metadata (setup.py) ... done
+Building wheels for collected packages: test-package-pipenv-base, test-package-pipenv-with-dependency
+  Building wheel for test-package-pipenv-base (setup.py) ... done
+  Created wheel for test-package-pipenv-base: filename=test_package_pipenv_base-0.0.0-py3-none-any.whl size=1137 sha256=33abd1cc81df384b8f33b0494ea416a3e3eb6851959267da7720c72c4900d12f
+  Stored in directory: /private/var/folders/6n/qx_2zxsd4sb5nblm9xzh76dw0000gn/T/pip-ephem-wheel-cache-bj6y34vy/wheels/84/ad/70/b3c26dda04b36cc40cbbf92510028cdbc9378a8134c758556a
+  Building wheel for test-package-pipenv-with-dependency (setup.py) ... done
+  Created wheel for test-package-pipenv-with-dependency: filename=test_package_pipenv_with_dependency-0.0.0-py3-none-any.whl size=1260 sha256=200c723b85d8aee55bb8f60ac6e757334838b7232861f4861e0a5620ef7ed6d9
+  Stored in directory: /private/var/folders/6n/qx_2zxsd4sb5nblm9xzh76dw0000gn/T/pip-ephem-wheel-cache-bj6y34vy/wheels/1e/7f/fd/e485fb04ac144b4c0cdf09290458935407e8853e4ac18010cd
+Successfully built test-package-pipenv-base test-package-pipenv-with-dependency
+Installing collected packages: test-package-pipenv-base, test-package-pipenv-with-dependency
+Successfully installed test-package-pipenv-base-0.0.0 test-package-pipenv-with-dependency-0.0.0
+```
