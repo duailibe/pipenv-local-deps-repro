@@ -3,37 +3,61 @@ Reproduction of a local transitive dependency on pipenv.
 Clone this repo and run `pipenv lock` and it will fail with:
 
 ```
-❯ pipenv lock
+❯ pipenv lock --verbose
 Locking [dev-packages] dependencies...
 Locking [packages] dependencies...
 Building requirements...
-/Users/lucas/.local/pipx/venvs/pipenv/lib/python3.10/site-packages/pipenv/patched/notpip/_internal/operations/prepare.py:218: PipDeprecationWarning: DEPRECATION: A future pip version will change local packages to be built in-place without first copying to a temporary directory. We recommend you use --use-feature=in-tree-build to test your packages with this new behavior before it becomes the default.
- pip 21.3 will remove support for this functionality. You can find discussion regarding this at https://github.com/pypa/pip/issues/7555.
-  deprecated(
 ⠇ Locking.../Users/lucas/.local/pipx/venvs/pipenv/lib/python3.10/site-packages/pipenv/patched/notpip/_internal/operations/prepare.py:218: PipDeprecationWarning: DEPRECATION: A future pip version will change local packages to be built in-place without first copying to a temporary directory. We recommend you use --use-feature=in-tree-build to test your packages with this new behavior before it becomes the default.
  pip 21.3 will remove support for this functionality. You can find discussion regarding this at https://github.com/pypa/pip/issues/7555.
   deprecated(
 Resolving dependencies...
-✘ Locking Failed! 
-
+Reporter.starting()
+INFO:pipenv.patched.notpip._internal.resolution.resolvelib.reporter:Reporter.starting()
+Reporter.adding_requirement(SpecifierRequirement('test-package-pipenv-base'), None)
+INFO:pipenv.patched.notpip._internal.resolution.resolvelib.reporter:Reporter.adding_requirement(SpecifierRequirement('test-package-pipenv-base'), None)
 CRITICAL:pipenv.patched.notpip._internal.resolution.resolvelib.factory:Could not find a version that satisfies the requirement test-package-pipenv-base (from versions: none)
-[ResolutionFailure]:   File "/Users/lucas/.local/pipx/venvs/pipenv/lib/python3.10/site-packages/pipenv/resolver.py", line 743, in _main
-[ResolutionFailure]:       resolve_packages(pre, clear, verbose, system, write, requirements_dir, packages, dev)
-[ResolutionFailure]:   File "/Users/lucas/.local/pipx/venvs/pipenv/lib/python3.10/site-packages/pipenv/resolver.py", line 704, in resolve_packages
-[ResolutionFailure]:       results, resolver = resolve(
-[ResolutionFailure]:   File "/Users/lucas/.local/pipx/venvs/pipenv/lib/python3.10/site-packages/pipenv/resolver.py", line 685, in resolve
-[ResolutionFailure]:       return resolve_deps(
-[ResolutionFailure]:   File "/Users/lucas/.local/pipx/venvs/pipenv/lib/python3.10/site-packages/pipenv/utils.py", line 1377, in resolve_deps
-[ResolutionFailure]:       results, hashes, markers_lookup, resolver, skipped = actually_resolve_deps(
-[ResolutionFailure]:   File "/Users/lucas/.local/pipx/venvs/pipenv/lib/python3.10/site-packages/pipenv/utils.py", line 1106, in actually_resolve_deps
-[ResolutionFailure]:       resolver.resolve()
-[ResolutionFailure]:   File "/Users/lucas/.local/pipx/venvs/pipenv/lib/python3.10/site-packages/pipenv/utils.py", line 884, in resolve
-[ResolutionFailure]:       raise ResolutionFailure(message=str(e))
-[pipenv.exceptions.ResolutionFailure]: Warning: Your dependencies could not be resolved. You likely have a mismatch in your sub-dependencies.
-  You can use $ pipenv install --skip-lock to bypass this mechanism, then run $ pipenv graph to inspect the situation.
-  Hint: try $ pipenv lock --pre if it is a pre-release dependency.
-ERROR: No matching distribution found for test-package-pipenv-base
-
+Traceback (most recent call last):
+  File "/Users/lucas/.local/pipx/venvs/pipenv/lib/python3.10/site-packages/pipenv/patched/notpip/_vendor/resolvelib/resolvers.py", line 341, in resolve
+    self._add_to_criteria(self.state.criteria, r, parent=None)
+  File "/Users/lucas/.local/pipx/venvs/pipenv/lib/python3.10/site-packages/pipenv/patched/notpip/_vendor/resolvelib/resolvers.py", line 173, in _add_to_criteria
+    raise RequirementsConflicted(criterion)
+pipenv.patched.notpip._vendor.resolvelib.resolvers.RequirementsConflicted: Requirements conflict: SpecifierRequirement('test-package-pipenv-base')
+During handling of the above exception, another exception occurred:
+Traceback (most recent call last):
+  File "/Users/lucas/.local/pipx/venvs/pipenv/lib/python3.10/site-packages/pipenv/patched/notpip/_internal/resolution/resolvelib/resolver.py", line 94, in resolve
+    result = self._result = resolver.resolve(
+  File "/Users/lucas/.local/pipx/venvs/pipenv/lib/python3.10/site-packages/pipenv/patched/notpip/_vendor/resolvelib/resolvers.py", line 472, in resolve
+    state = resolution.resolve(requirements, max_rounds=max_rounds)
+  File "/Users/lucas/.local/pipx/venvs/pipenv/lib/python3.10/site-packages/pipenv/patched/notpip/_vendor/resolvelib/resolvers.py", line 343, in resolve
+    raise ResolutionImpossible(e.criterion.information)
+pipenv.patched.notpip._vendor.resolvelib.resolvers.ResolutionImpossible: [RequirementInformation(requirement=SpecifierRequirement('test-package-pipenv-base'), parent=None)]
+The above exception was the direct cause of the following exception:
+Traceback (most recent call last):
+  File "/Users/lucas/.local/pipx/venvs/pipenv/lib/python3.10/site-packages/pipenv/utils.py", line 882, in resolve
+    results = resolver.resolve(self.constraints, check_supported_wheels=False)
+  File "/Users/lucas/.local/pipx/venvs/pipenv/lib/python3.10/site-packages/pipenv/patched/notpip/_internal/resolution/resolvelib/resolver.py", line 103, in resolve
+    raise error from e
+pipenv.patched.notpip._internal.exceptions.DistributionNotFound: No matching distribution found for test-package-pipenv-base
+During handling of the above exception, another exception occurred:
+Traceback (most recent call last):
+  File "/Users/lucas/.local/pipx/venvs/pipenv/lib/python3.10/site-packages/pipenv/resolver.py", line 766, in <module>
+    main()
+  File "/Users/lucas/.local/pipx/venvs/pipenv/lib/python3.10/site-packages/pipenv/resolver.py", line 760, in main
+    _main(parsed.pre, parsed.clear, parsed.verbose, parsed.system, parsed.write,
+  File "/Users/lucas/.local/pipx/venvs/pipenv/lib/python3.10/site-packages/pipenv/resolver.py", line 743, in _main
+    resolve_packages(pre, clear, verbose, system, write, requirements_dir, packages, dev)
+  File "/Users/lucas/.local/pipx/venvs/pipenv/lib/python3.10/site-packages/pipenv/resolver.py", line 704, in resolve_packages
+    results, resolver = resolve(
+  File "/Users/lucas/.local/pipx/venvs/pipenv/lib/python3.10/site-packages/pipenv/resolver.py", line 685, in resolve
+    return resolve_deps(
+  File "/Users/lucas/.local/pipx/venvs/pipenv/lib/python3.10/site-packages/pipenv/utils.py", line 1377, in resolve_deps
+    results, hashes, markers_lookup, resolver, skipped = actually_resolve_deps(
+  File "/Users/lucas/.local/pipx/venvs/pipenv/lib/python3.10/site-packages/pipenv/utils.py", line 1106, in actually_resolve_deps
+    resolver.resolve()
+  File "/Users/lucas/.local/pipx/venvs/pipenv/lib/python3.10/site-packages/pipenv/utils.py", line 884, in resolve
+    raise ResolutionFailure(message=str(e))
+pipenv.exceptions.ResolutionFailure: ERROR: No matching distribution found for test-package-pipenv-base
+✘ Locking Failed! 
 ```
 
 Where as running `pip install -r requirements.txt` works:
