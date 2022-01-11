@@ -1,4 +1,4 @@
-Reproduction of a local transitive dependency on pipenv.
+Reproduction of the pipenv bug with transitive local dependencies.
 
 Clone this repo and run `pipenv lock` and it will fail with:
 
@@ -60,7 +60,7 @@ pipenv.exceptions.ResolutionFailure: ERROR: No matching distribution found for t
 ✘ Locking Failed! 
 ```
 
-Where as running `pip install -r requirements.txt` works:
+Whereas running `pip install -r requirements.txt` works:
 
 ```
 ❯ pip install -r requirements.txt
